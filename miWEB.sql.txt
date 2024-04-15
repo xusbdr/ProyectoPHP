@@ -1,0 +1,86 @@
+-- --------------------------------------------------------
+-- Host:                         127.0.0.1
+-- Versión del servidor:         5.5.40 - MySQL Community Server (GPL)
+-- SO del servidor:              Win64
+-- HeidiSQL Versión:             12.6.0.6765
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+-- Volcando estructura de base de datos para web
+CREATE DATABASE IF NOT EXISTS `web` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `web`;
+
+-- Volcando estructura para tabla web.pagina
+CREATE TABLE IF NOT EXISTS `pagina` (
+  `idpagina` int(3) unsigned zerofill NOT NULL AUTO_INCREMENT,
+  `rutapagina` varchar(255) DEFAULT NULL,
+  `descripcion` text,
+  PRIMARY KEY (`idpagina`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla web.pagina: ~6 rows (aproximadamente)
+INSERT INTO `pagina` (`idpagina`, `rutapagina`, `descripcion`) VALUES
+	(001, 'index.php', 'pagina principal de acceso'),
+	(002, 'añadirUsuario.php', 'el usuario se podra registrar y crear su perfil'),
+	(003, 'bienvenida.php', 'recibe al usuario y le da opciones '),
+	(004, 'modificarUsuario.php', 'el usuario puede modificar sus datos '),
+	(005, 'contacto.html', 'contiene informacion de la empresa'),
+	(006, 'cerrarConexion.php', 'cierra sesion de forma manual');
+
+-- Volcando estructura para tabla web.suscripcion
+CREATE TABLE IF NOT EXISTS `suscripcion` (
+  `idUsuario` int(3) unsigned zerofill NOT NULL AUTO_INCREMENT,
+  `tipoSuscripcion` enum('basico','premium','profesional') DEFAULT NULL,
+  `fechaInicio` date DEFAULT NULL,
+  `fechaFin` date DEFAULT NULL,
+  PRIMARY KEY (`idUsuario`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla web.suscripcion: ~2 rows (aproximadamente)
+INSERT INTO `suscripcion` (`idUsuario`, `tipoSuscripcion`, `fechaInicio`, `fechaFin`) VALUES
+	(001, 'basico', '2024-03-25', '2024-03-25'),
+	(002, 'premium', '2024-03-01', '2024-04-01');
+
+-- Volcando estructura para tabla web.usuario
+CREATE TABLE IF NOT EXISTS `usuario` (
+  `idUsuario` int(3) unsigned zerofill NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(10) NOT NULL,
+  `apellidos` varchar(10) NOT NULL,
+  `contrasenya` varchar(255) NOT NULL,
+  `sexo` enum('masculino','femenino') NOT NULL,
+  `fechaNacimiento` date DEFAULT NULL,
+  `tipoSuscripcion` enum('basica','premium','profesional') DEFAULT NULL,
+  `foto` blob,
+  `tiempo_bloqueo` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idUsuario`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla web.usuario: ~2 rows (aproximadamente)
+INSERT INTO `usuario` (`idUsuario`, `nombre`, `apellidos`, `contrasenya`, `sexo`, `fechaNacimiento`, `tipoSuscripcion`, `foto`, `tiempo_bloqueo`) VALUES
+	(001, 'jesus', 'Admin', '1', 'masculino', '2000-04-24', 'premium', NULL, NULL),
+	(002, 'patri', 'hh', '1', 'masculino', '2000-03-02', 'basica', _binary '', NULL);
+
+-- Volcando estructura para tabla web.visitas
+CREATE TABLE IF NOT EXISTS `visitas` (
+  `idUsuario` varchar(50) DEFAULT NULL,
+  `idPagina` int(11) DEFAULT NULL,
+  `horavisita` time DEFAULT NULL,
+  `fechavisita` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla web.visitas: ~0 rows (aproximadamente)
+
+/*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
